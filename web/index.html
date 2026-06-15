@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Cup 2026 | KSA vs URU Prediction</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --green: #00A86B;
+    --blue:  #5EB2FF;
+    --gold:  #C8A951;
+    --dark:  #0A0F1A;
+    --card:  #161D2E;
+    --mid:   #1E293B;
+    --text:  #E8EDF5;
+    --muted: #7A8BAA;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    background: linear-gradient(160deg, #0D1B2A 0%, #0A0F1A 60%);
+    border-bottom: 1px solid rgba(200,169,81,0.15);
+    padding: 48px 24px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      180deg,
+      rgba(0,168,107,0.03) 0px, rgba(0,168,107,0.03) 40px,
+      transparent 40px, transparent 80px
+    );
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    border: 1px solid rgba(200,169,81,0.3);
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+
+  .teams-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 16px;
+  }
+
+  .team-hero { text-align: center; }
+  .flag-big  { font-size: 72px; line-height: 1; }
+  .team-hero h2 { font-size: 18px; font-weight: 700; margin-top: 8px; }
+  .team-hero small { font-size: 12px; color: var(--muted); }
+
+  .vs-hero {
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--gold);
+    opacity: 0.6;
+  }
+
+  .hero-meta {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+
+  /* ── Container ── */
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  /* ── Section title ── */
+  .section-title {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  /* ── Prediction card ── */
+  .pred-card {
+    background: var(--card);
+    border: 1px solid rgba(200,169,81,0.2);
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pred-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  .score-big {
+    font-size: 72px;
+    font-weight: 900;
+    letter-spacing: 12px;
+    color: var(--gold);
+    line-height: 1;
+    margin: 16px 0 8px;
+  }
+
+  .score-teams {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  .winner-pill {
+    display: inline-block;
+    padding: 6px 20px;
+    border-radius: 24px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .pill-sa   { background: rgba(0,168,107,0.15); color: #00D689; border: 1px solid rgba(0,168,107,0.35); }
+  .pill-draw { background: rgba(107,114,128,0.15); color: #9CA3AF; border: 1px solid rgba(107,114,128,0.35); }
+  .pill-ur   { background: rgba(94,178,255,0.15); color: var(--blue); border: 1px solid rgba(94,178,255,0.35); }
+
+  /* ── Probability bars ── */
+  .probs-card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+
+  .prob-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  .prob-row:last-child { margin-bottom: 0; }
+
+  .prob-flag { font-size: 20px; width: 28px; }
+  .prob-label { font-size: 13px; color: var(--muted); width: 100px; }
+
+  .prob-track {
+    flex: 1;
+    height: 10px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .prob-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 1.2s cubic-bezier(.4,0,.2,1);
+    width: 0;
+  }
+
+  .fill-sa   { background: linear-gradient(90deg, #006847, var(--green)); }
+  .fill-draw { background: linear-gradient(90deg, #374151, #6B7280); }
+  .fill-ur   { background: linear-gradient(90deg, #1A3A8F, var(--blue)); }
+
+  .prob-pct { font-size: 15px; font-weight: 700; width: 44px; text-align: right; }
+
+  /* ── Stats grid ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 20px;
+  }
+
+  .stat-card h3 {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+
+  .stat-row:last-child { margin-bottom: 0; }
+  .stat-val-sa { color: var(--green); font-weight: 700; }
+  .stat-val-ur { color: var(--blue);  font-weight: 700; }
+  .stat-label  { color: var(--muted); }
+
+  /* ── Analysis ── */
+  .analysis-card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+
+  .analysis-card h3 {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .analysis-card p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #B8C5D6;
+  }
+
+  /* ── Chart image ── */
+  .chart-card {
+    background: var(--card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+
+  .chart-card h3 {
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    text-transform: uppercase;
+    padding: 20px 24px 0;
+    margin-bottom: 16px;
+  }
+
+  .chart-card img {
+    width: 100%;
+    display: block;
+  }
+
+  /* ── Loading / Error ── */
+  .loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+  }
+
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid rgba(200,169,81,0.2);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+    margin: 0 auto 16px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .disclaimer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    padding: 0 20px;
+    line-height: 1.7;
+    margin-top: 32px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="badge">⚽ FIFA World Cup 2026 · Group H</div>
+  <div class="teams-row">
+    <div class="team-hero">
+      <div class="flag-big">🇸🇦</div>
+      <h2>Saudi Arabia</h2>
+      <small>FIFA #61</small>
+    </div>
+    <div class="vs-hero">VS</div>
+    <div class="team-hero">
+      <div class="flag-big">🇺🇾</div>
+      <h2>Uruguay</h2>
+      <small>FIFA #16</small>
+    </div>
+  </div>
+  <div class="hero-meta">Monday, June 16 2026 · Hard Rock Stadium · Miami</div>
+</div>
+
+<!-- Main -->
+<div class="container" id="app">
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p>Loading prediction...</p>
+  </div>
+</div>
+
+<script>
+// ── تحميل prediction.json ──────────────────────────────
+async function loadPrediction() {
+  try {
+    const res  = await fetch('../outputs/prediction.json');
+    const pred = await res.json();
+    render(pred);
+  } catch {
+    document.getElementById('app').innerHTML = `
+      <div class="loading">
+        <p style="color:#FCA5A5">⚠️ prediction.json not found.<br>
+        Run <code>predict.py</code> first to generate the prediction.</p>
+      </div>`;
+  }
+}
+
+// ── رندر الصفحة ───────────────────────────────────────
+function render(pred) {
+  const pillClass = { sa: 'pill-sa', draw: 'pill-draw', ur: 'pill-ur' };
+  const pillLabel = {
+    sa:   '🇸🇦 Saudi Arabia Wins',
+    draw: '🤝 Draw',
+    ur:   '🇺🇾 Uruguay Wins'
+  };
+
+  document.getElementById('app').innerHTML = `
+
+    <!-- Predicted Score -->
+    <p class="section-title">🏆 Final Prediction</p>
+    <div class="pred-card">
+      <div class="score-teams">
+        <span>🇸🇦 Saudi Arabia</span>
+        <span>Uruguay 🇺🇾</span>
+      </div>
+      <div class="score-big">${pred.score_sa} - ${pred.score_ur}</div>
+      <span class="winner-pill ${pillClass[pred.winner]}">${pillLabel[pred.winner]}</span>
+    </div>
+
+    <!-- Win Probability -->
+    <p class="section-title">📊 Win Probability</p>
+    <div class="probs-card">
+      <div class="prob-row">
+        <div class="prob-flag">🇸🇦</div>
+        <div class="prob-label">Saudi Arabia</div>
+        <div class="prob-track"><div class="prob-fill fill-sa" data-w="${pred.prob_sa}"></div></div>
+        <div class="prob-pct">${pred.prob_sa}%</div>
+      </div>
+      <div class="prob-row">
+        <div class="prob-flag">🤝</div>
+        <div class="prob-label">Draw</div>
+        <div class="prob-track"><div class="prob-fill fill-draw" data-w="${pred.prob_draw}"></div></div>
+        <div class="prob-pct">${pred.prob_draw}%</div>
+      </div>
+      <div class="prob-row">
+        <div class="prob-flag">🇺🇾</div>
+        <div class="prob-label">Uruguay</div>
+        <div class="prob-track"><div class="prob-fill fill-ur" data-w="${pred.prob_ur}"></div></div>
+        <div class="prob-pct">${pred.prob_ur}%</div>
+      </div>
+    </div>
+
+    <!-- Analysis -->
+    <p class="section-title">🤖 AI Analysis</p>
+    <div class="analysis-card">
+      <h3>Match Analysis</h3>
+      <p>${pred.analysis}</p>
+    </div>
+    <div class="analysis-card">
+      <h3>⚡ Key Factor</h3>
+      <p>${pred.key_factor}</p>
+    </div>
+
+    <!-- Chart -->
+    <p class="section-title">📈 Full Chart</p>
+    <div class="chart-card">
+      <h3>Prediction Chart</h3>
+      <img src="../outputs/prediction_chart.png" alt="Prediction Chart"
+           onerror="this.parentElement.innerHTML+='<p style=padding:20px;color:#7A8BAA>Run chart.py to generate the chart image.</p>';this.remove()">
+    </div>
+
+    <div class="disclaimer">
+      This prediction is powered by Claude AI and real data from API-Football.<br>
+      Football is unpredictable — results are decided on the pitch.
+    </div>
+  `;
+
+  // أنيمي الأشرطة
+  setTimeout(() => {
+    document.querySelectorAll('.prob-fill').forEach(el => {
+      el.style.width = el.dataset.w + '%';
+    });
+  }, 200);
+}
+
+loadPrediction();
+</script>
+</body>
+</html>
